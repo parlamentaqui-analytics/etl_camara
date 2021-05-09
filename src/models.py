@@ -19,150 +19,58 @@ class Deputy(Document):
     instagram_username = StringField()
     twitter_username = StringField()
     facebook_username = StringField()
-    twitter_id = StringField()
-    website = StringField()
 
-    def to_json(self):
+    def to_json(self, context):
         return{
-            'id':self.id,
-            'name':self.name,
-            'photo_url':self.photo_url,
-            'initial_legislature_id':self.initial_legislature_id,
-            'final_legislature_id':self.final_legislature_id,
-            'initial_legislature_year':self.initial_legislature_year,
-            'final_legislature_year':self.final_legislature_year,
-            'last_activity_date':self.last_activity_date,
-            'full_name':self.full_name,
-            'sex':self.sex,
-            'email':self.email,
-            'birth_date':self.birth_date,
-            'death_date':self.death_date,
-            'federative_unity':self.federative_unity,
-            'party':self.party,
-            'instagram_username':self.instagram_username,
-            'twitter_username':self.twitter_username,
-            'facebook_username':self.facebook_username,
-            'twitter_id':self.twitter_id,
-            'website':self.website
+            'id':context.id,
+            'name':context.name,
+            'photo_url':context.photo_url,
+            'initial_legislature_id':context.initial_legislature_id,
+            'final_legislature_id':context.final_legislature_id,
+            'initial_legislature_year':context.initial_legislature_year,
+            'final_legislature_year':context.final_legislature_year,
+            'last_activity_date':context.last_activity_date,
+            'full_name':context.full_name,
+            'sex':context.sex,
+            'email':context.email,
+            'birth_date':context.birth_date,
+            'death_date':context.death_date,
+            'federative_unity':context.federative_unity,
+            'party':context.party,
+            'instagram_username':context.instagram_username,
+            'twitter_username':context.twitter_username,
+            'facebook_username':context.facebook_username
         }
 
-class Parlamentary_vote(Document):
-    unique_id = StringField(primary_key=True)
-    id_voting = StringField(required=True)
-    id_deputy = IntField(required=True)
+class News(Document):
+    id = IntField(primary_key=True)
+    deputy_id = IntField()
+    link = StringField()
+    photo = StringField()
+    title = StringField()
+    abstract = StringField()
     deputy_name = StringField()
-    party = StringField()
-    federative_unity = StringField()
-    id_legislature = StringField()
-    date_time_vote = DateTimeField()
-    vote = StringField()
-    voted_accordingly = StringField()
-    proposition_id = StringField()
-    proposition_description = StringField()
-    proposition_title = StringField()
-    proposition_link = StringField()
-        
-    def to_json(self):
-        return{
-            'unique_id': self.unique_id,
-            'id_voting': self.id_voting,
-            'id_deputy': self.id_deputy,
-            'deputy_name': self.deputy_name,
-            'party': self.party,
-            'federative_unity': self.federative_unity,
-            'id_legislature': self.id_legislature,
-            'date_time_vote': self.date_time_vote,
-            'vote': self.vote,
-            'voted_accordingly': self.voted_accordingly,
-            'proposition_id': self.proposition_id,
-            'proposition_description': self.proposition_description,
-            'proposition_title': self.proposition_title,
-            'proposition_link': self.proposition_link
+    update_date = DateTimeField()
+    source = StringField()
+
+    def to_json(self, context):
+        return {
+            'id':context.id,
+            'deputy_id':context.deputy_id,
+            'link': context.link,
+            'photo':context.photo,
+            'title':context.title,
+            'abstract':context.abstract,
+            'deputy_name':context.deputy_name,
+            'update_date':context.update_date,
+            'source':context.source
         }
 
-class Proposicao(Document):
-    proposicao_id = IntField(primary_key=True)
-    id_deputado_autor = IntField(required=True)
-    uri = StringField()
-    descricao_tipo = StringField()
-    ementa = StringField(required=True)
-    ementa_detalhada = StringField()
-    keywords = StringField()
-    data_apresentacao = DateTimeField()
-    urlAutor = StringField()
-    tipoAutor = StringField()
-    nome_autor = StringField()
-    sigla_UF_autor = StringField()
-    tema_proposicao = StringField()
-    sigla_orgao = StringField() # Comeca aqui as informacoes do objeto de status
-    data_proposicao = DateTimeField() 
-    descricao_situacao = StringField()
-    despacho = StringField()
-    uri_relator = StringField()
-    sigla_tipo = StringField()
-    cod_tipo = IntField()
-    numero = IntField()
-    ano = IntField()
-        
-    def to_json(self):
-        return{
-            'proposicao_id': self.proposicao_id,
-            'id_deputado_autor': self.id_deputado_autor,
-            'uri': self.uri,
-            'descricao_tipo': self.descricao_tipo,
-            'ementa': self.ementa,
-            'ementa_detalhada': self.ementa_detalhada,
-            'keywords': self.keywords,
-            'urlAutor': self.urlAutor,
-            'tipoAutor': self.tipoAutor,
-            'nome_autor': self.nome_autor,
-            'sigla_UF_autor': self.sigla_UF_autor,
-            'tema_proposicao': self.tema_proposicao,
-            'sigla_orgao': self.sigla_orgao,
-            'data_proposicao': self.data_proposicao,
-            'descricao_situacao': self.descricao_situacao,
-            'despacho': self.despacho,
-            'uri_relator': self.uri_relator,
-            'sigla_tipo' : self.sigla_tipo,
-            'cod_tipo' : self.cod_tipo,
-            'numero' : self.numero,
-            'ano' : self.ano
-        }
 
-class Expenses(Document):
-    deputy_id = IntField(required=True)
-    year = IntField(required=True)
-    month = IntField(required=True)
-    expenses_type = StringField()
-    document_type = StringField()
-    document_date = DateTimeField()
-    document_num = IntField(primary_key=True)
-    document_value = IntField()
-    document_url = StringField()
-    supplier_name = StringField()
-    supplier_cnpj_cpf = StringField()
-    liquid_value = IntField()
-    glosa_value = IntField()
-    refund_num = StringField()
-    batch_cod = IntField()
-    tranche = IntField()
+# class Tweet(Document):
+#     tweet_id = IntField(primary_key=True)
+#     deputy_id = IntField()
+#     name = StringField()
+#     twitter_username = StringField()
+#     date = DateTimeField()
 
-    def to_json(self):
-        return{
-            'deputy_id':self.deputy_id,
-            'year':self.year,
-            'month':self.month,
-            'expenses_type':self.expenses_type,
-            'document_type':self.document_type,
-            'document_date':self.document_date,
-            'document_num':self.document_num,
-            'document_value':self.document_value,
-            'document_url':self.document_url,
-            'supplier_name':self.supplier_name,
-            'supplier_cnpj_cpf':self.supplier_cnpj_cpf,
-            'liquid_value':self.liquid_value,
-            'glosa_value':self.glosa_value,
-            'refund_num':self.refund_num,
-            'batch_cod':self.batch_cod,
-            'tranche':self.tranche
-        }
